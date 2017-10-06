@@ -30,13 +30,11 @@ def validate_signup():
         name_err = "Username must be more than 3 characters and less than 20 and must contain no spaces"
     if password == "": 
         pw_err = "You must enter a password"
-        password = ""
     elif len(password) < 3 or len(password) > 20 or " " in password:
         pw_err = "Password must be more than 3 characters and less than 20 and must contain no spaces"
         password = ""
     if password != verify:
         verify_err = "Passwords do not match"
-        verify = ""
     if email != "":
         if len(email) < 3 or len(email) > 20 or " " in email:
             email_err = "A valid email must contain more than 3 characters and less than 20, and must contain no spaces"
@@ -47,9 +45,11 @@ def validate_signup():
                 a_count += 1
         if period_count != 1 or a_count != 1:
             email_err = 'A valid email contains one "." and one "@"'
-    if not name_err and not email_err and not verify_err and not email_err:
+    if not name_err and not pw_err and not verify_err and not email_err:
         return redirect ("/welcome?name=" + username)
     else: 
+        verify = ""
+        password = ""
         return render_template("signup.html", name_err=name_err, pw_err=pw_err, verify_err=verify_err, email_err=email_err, username=username, password=password, verify=verify, email=email)
 
 @app.route("/welcome")
